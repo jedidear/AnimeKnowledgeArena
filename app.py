@@ -142,7 +142,12 @@ def logout():
 def profile():
     return render_template('profile.html', user=current_user)
 
+# Gunicorn entry point
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+else:
+    # This runs when imported by Gunicorn
+    with app.app_context():
+        db.create_all()
