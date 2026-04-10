@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Arena Rooms - Anime Arena{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h1 class="display-4 fw-bold">Select Your Arena</h1>
+    <p class="lead">Choose an anime and prove your knowledge!</p>
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for room in rooms %}
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+            <img src="{{ room.image_url }}" class="card-img-top" alt="{{ room.anime_title }}" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title fw-bold">{{ room.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ room.anime_title }}</h6>
+                <p class="card-text">{{ room.description }}</p>
+            </div>
+            <div class="card-footer bg-white border-0 pb-3">
+                <a href="{{ url_for('room_detail', room_id=room.id) }}" class="btn btn-primary w-100">Enter Arena</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

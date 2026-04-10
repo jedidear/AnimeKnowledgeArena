@@ -1,0 +1,102 @@
+:root {
+    --primary-glow: rgba(0, 110, 255, 0.4);
+    --secondary-glow: rgba(255, 0, 110, 0.4);
+    --bg-dark: #0a0b10;
+    --card-bg: #141620;
+    --neon-blue: #00d2ff;
+    --neon-pink: #ff006e;
+    --text-main: #e0e0e0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-image: radial-gradient(circle at 50% 50%, #1a1c2c 0%, #0a0b10 100%);
+    min-height: 100vh;
+}
+
+.navbar {
+    background: rgba(20, 22, 32, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--neon-blue) !important;
+    text-shadow: 0 0 10px var(--primary-glow);
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: var(--text-main);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-color: var(--neon-blue);
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+    border: none;
+    box-shadow: 0 4px 15px var(--primary-glow);
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #3a7bd5, #00d2ff);
+    transform: scale(1.02);
+}
+
+.progress {
+    background-color: rgba(255, 255, 255, 0.1);
+    height: 10px;
+    border-radius: 5px;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+.badge-custom {
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
+
+.text-neon {
+    color: var(--neon-blue);
+    text-shadow: 0 0 5px var(--primary-glow);
+}
+
+.quiz-choice-label {
+    display: block;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.quiz-choice-label:hover {
+    background: rgba(0, 210, 255, 0.1);
+    border-color: var(--neon-blue);
+}
+
+input[type="radio"]:checked + .quiz-choice-label {
+    background: var(--neon-blue);
+    color: #000;
+    font-weight: bold;
+}

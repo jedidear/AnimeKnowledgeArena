@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Leaderboard - Top Otakus{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow border-0">
+            <div class="card-header bg-dark text-white p-4 text-center">
+                <h1 class="mb-0"><i class="fas fa-medal text-warning me-2"></i>Global Leaderboard</h1>
+                <p class="mb-0 text-muted">The strongest warriors in the Anime Knowledge Arena</p>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Rank</th>
+                                <th>User</th>
+                                <th>Title</th>
+                                <th>Total XP</th>
+                                <th class="text-end pe-4">Badges</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td class="ps-4 fw-bold">#{{ loop.index }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-light rounded-circle text-center me-2" style="width: 32px; height: 32px; line-height: 32px;">
+                                            {{ user.username[0].upper() }}
+                                        </div>
+                                        <span>{{ user.username }}</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-info text-dark">{{ user.rank }}</span></td>
+                                <td class="fw-bold">{{ user.xp }} XP</td>
+                                <td class="text-end pe-4">
+                                    {% for badge in user.badges %}
+                                        <i class="fas fa-{{ badge.icon }} text-warning ms-1" title="{{ badge.name }}"></i>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
