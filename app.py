@@ -6,9 +6,15 @@ from models import db, User, ArenaRoom, Question, Choice, Badge
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'dev-key-123'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-key-123')
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'anime_arena.db')
+
+# Priority: External Database URL -> Local SQLite
+db_url = os.environ.get('DATABASE_URL')
+if db_url and db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url or 'sqlite:///' + os.path.join(basedir, 'anime_arena.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
