@@ -57,9 +57,10 @@ document.getElementById('register-form').addEventListener('submit', async functi
             btn.disabled = false;
             btn.textContent = 'Register';
         }
-    } catch {
+    } catch (err) {
         alert.className = 'alert alert-danger';
-        alert.textContent = 'Network error. Please try again.';
+        alert.textContent = 'An error occurred: ' + (err.message || 'Check console for details');
+        console.error('Registration Error:', err);
         btn.disabled = false;
         btn.textContent = 'Register';
     }
