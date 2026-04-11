@@ -226,10 +226,14 @@ def auto_seed():
 
 if __name__ == '__main__':
     with app.app_context():
+        # WARNING: This will wipe the database on Render to fix the schema
+        db.drop_all()
         db.create_all()
         auto_seed()
     app.run(debug=True)
 else:
     with app.app_context():
+        # WARNING: This will wipe the database on Render to fix the schema
+        db.drop_all()
         db.create_all()
         auto_seed()
