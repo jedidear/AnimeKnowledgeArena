@@ -29,6 +29,14 @@
                             </div>
                         </div>
                         
+                        <div class="mt-3">
+                            {% if 'postgresql' in config['SQLALCHEMY_DATABASE_URI'] %}
+                                <span class="badge bg-success"><i class="fas fa-cloud me-1"></i> Cloud Storage: Permanent</span>
+                            {% else %}
+                                <span class="badge bg-danger"><i class="fas fa-exclamation-triangle me-1"></i> Local Storage: Temporary (Data will be lost)</span>
+                            {% endif %}
+                        </div>
+
                         <h5 class="fw-bold mt-4 mb-3">Your Badges</h5>
                         <div class="d-flex flex-wrap gap-3">
                             {% for badge in user.badges %}
