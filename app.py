@@ -115,9 +115,8 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
             login_user(user)
-            return redirect(url_for('index'))
-        flash('Invalid username or password')
-        return redirect(url_for('login'))
+            return jsonify({'status': 'success', 'redirect': url_for('index')})
+        return jsonify({'status': 'error', 'message': 'Invalid username or password'}), 401
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -128,15 +127,13 @@ def register():
         password = request.form.get('password')
         
         if User.query.filter_by(username=username).first():
-            flash('Username already exists')
-            return redirect(url_for('register'))
+            return jsonify({'status': 'error', 'message': 'Username already exists'}), 400
             
         user = User(username=username, email=email)
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
-        flash('Account created! Please log in.')
-        return redirect(url_for('login'))
+        return jsonify({'status': 'success', 'message': 'Account created!', 'redirect': url_for('login')})
     return render_template('register.html')
 
 @app.route('/leaderboard')
