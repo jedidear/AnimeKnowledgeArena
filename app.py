@@ -142,12 +142,49 @@ def logout():
 def profile():
     return render_template('profile.html', user=current_user)
 
+def auto_seed():
+    if ArenaRoom.query.first() is None:
+        print("🌱 Auto-seeding database...")
+        from data_seed import BADGES_DATA, ROOMS_DATA, NARUTO_QUESTIONS, ONE_PIECE_QUESTIONS, AOT_QUESTIONS
+        
+        # 1. Sync Badges
+        for b_data in BADGES_DATA:
+            if not Badge.query.filter_by(name=b_data["name"]).first():
+                db.session.add(Badge(name=b_data["name"], description=b_data["desc"], icon=b_data["icon"]))
+
+        # 2. Sync Rooms
+        for r_data in ROOMS_DATA:
+            if not ArenaRoom.query.filter_by(name=r_data["name"]).first():
+                room = ArenaRoom(name=r_data["name"], anime_title=r_data["anime"], description=r_data["desc"], image_url=r_data["img"])
+                db.session.add(room)
+        db.session.commit()
+
+        # 3. Add Questions
+        def add_qs(room_name, questions_list):
+            room = ArenaRoom.query.filter_by(name=room_name).first()
+            if not room: return
+            for q_text, choices in questions_list:
+                if not Question.query.filter_by(text=q_text, room_id=room.id).first():
+                    q = Question(room_id=room.id, text=q_text, xp_reward=100)
+                    db.session.add(q)
+                    db.session.commit()
+                    for c_text, is_corr in choices:
+                        db.session.add(Choice(question_id=q.id, text=c_text, is_correct=is_corr))
+                    db.session.commit()
+
+        add_qs("Hidden Leaf Village", NARUTO_QUESTIONS)
+        add_qs("The Grand Line", ONE_PIECE_QUESTIONS)
+        add_qs("Shiganshina District", AOT_QUESTIONS)
+        print("🔥 Database seeded successfully!")
+
 # Gunicorn entry point
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+        auto_seed()
     app.run(debug=True)
 else:
     # This runs when imported by Gunicorn
     with app.app_context():
         db.create_all()
+        auto_seed()
