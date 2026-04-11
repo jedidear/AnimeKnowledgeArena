@@ -117,6 +117,7 @@ def login():
             login_user(user)
             return redirect(url_for('index'))
         flash('Invalid username or password')
+        return redirect(url_for('login'))
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -134,6 +135,7 @@ def register():
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
+        flash('Account created! Please log in.')
         return redirect(url_for('login'))
     return render_template('register.html')
 
